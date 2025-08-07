@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Food Recipe Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    .ingredients {
+      margin-bottom: 20px;
+    }
+
+    .recipe {
+      background-color: #f8f8f8;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Recipe Finder</h1>
+
+  <div class="ingredients">
+    <h3>Select Ingredients:</h3>
+    <label><input type="checkbox" value="egg"> Egg</label><br>
+    <label><input type="checkbox" value="milk"> Milk</label><br>
+    <label><input type="checkbox" value="flour"> Flour</label><br>
+    <label><input type="checkbox" value="sugar"> Sugar</label><br>
+    <label><input type="checkbox" value="potato"> Potato</label><br>
+    <label><input type="checkbox" value="tomata"> Tomato</label><br>
+    <label><input type="checkbox" value="chicken"> Chicken</label><br>
+    <label><input type="checkbox" value="rice"> Rice</label><br>
+  </div>
+
+  <button onclick="findRecipes()">Find Recipes</button>
+
+  <h3>Recipes:</h3>
+  <div id="recipe-results"></div>
+
+  <script>
+    const recipes = [
+      {
+        name: "Pancakes",
+        ingredients: ["egg", "milk", "flour", "sugar"]
+      },
+      {
+        name: "Aloo kurma",
+        ingredients: ["potato", "tomato"]
+      },
+      {
+        name: "Chicken Biryani",
+        ingredients: ["chicken", "rice"]
+      },
+      {
+        name: "Chicken Fried Rice",
+        ingredients: ["chicken", "rice", "egg"]
+      }
+    ];
+
+    function findRecipes() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const selectedIngredients = Array.from(checkboxes).map(cb => cb.value);
+
+      const matchedRecipes = recipes.filter(recipe =>
+        recipe.ingredients.every(ing => selectedIngredients.includes(ing))
+      );
+
+      const resultsDiv = document.getElementById("recipe-results");
+      resultsDiv.innerHTML = "";
+
+      if (matchedRecipes.length === 0) {
+        resultsDiv.innerHTML = "<p>No recipes found with selected ingredients.</p>";
+        return;
+      }
+
+      matchedRecipes.forEach(recipe => {
+        const recipeDiv = document.createElement("div");
+        recipeDiv.className = "recipe";
+        recipeDiv.textContent = recipe.name;
+        resultsDiv.appendChild(recipeDiv);
+      });
+    }
+  </script>
+</body>
+</html>
